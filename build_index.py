@@ -44,7 +44,8 @@ def get_changed_files():
         return []
 
     r = subprocess.run(
-        ["git", "diff", "--name-only", "--diff-filter=AM", f"{last}..{head}"],
+        ["git", "-c", "core.quotepath=false", "diff", "--name-only",
+         "--diff-filter=AM", f"{last}..{head}"],
         cwd=NOTES_DIR, capture_output=True, text=True
     )
     changed = []
