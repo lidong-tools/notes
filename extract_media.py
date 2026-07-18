@@ -16,9 +16,15 @@ CACHE_DIR = "/tmp/hermes-kb-images"
 
 def extract_images(md_path: str, max_images: int = MAX_IMAGES) -> dict:
     """从 MD 文件中提取图片链接并下载到本地"""
-    result = {"source_url": "", "images": [], "image_urls": []}
+    result = {"source_url": "", "github_url": "", "images": [], "image_urls": []}
 
     os.makedirs(CACHE_DIR, exist_ok=True)
+
+    # 计算 GitHub blob 链接
+    repo_base = os.path.dirname(os.path.abspath(__file__))
+    abs_md = os.path.abspath(md_path)
+    rel_path = os.path.relpath(abs_md, repo_base)
+    result["github_url"] = f"https://github.com/lidong-tools/notes/blob/main/{rel_path}"
 
     with open(md_path, "r", encoding="utf-8") as f:
         content = f.read()
