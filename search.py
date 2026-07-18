@@ -15,11 +15,18 @@ from sentence_transformers import SentenceTransformer
 from rank_bm25 import BM25Okapi
 import jieba
 
-N = int(sys.argv[2]) if len(sys.argv) > 2 else 5
-QUERY = sys.argv[1] if len(sys.argv) > 1 else None
+import argparse
+
+parser = argparse.ArgumentParser(description="搜索知识库")
+parser.add_argument("query", nargs="?", help="搜索关键词")
+parser.add_argument("-n", type=int, default=5, help="返回条数")
+args = parser.parse_args()
+
+N = args.n
+QUERY = args.query
 
 if not QUERY:
-    print("用法: search.py \"关键词\" [-n 返回条数]")
+    parser.print_help()
     sys.exit(1)
 
 
